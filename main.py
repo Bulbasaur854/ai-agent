@@ -4,7 +4,7 @@ from google import genai
 
 def main():
     if len(sys.argv) != 2:
-        print("Too many / few arguments passed.")
+        print("Too many / few arguments passed")
         sys.exit(1)
 
     # load gemini api key from `.env` using `dotenv` library
