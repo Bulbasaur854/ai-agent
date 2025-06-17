@@ -1,4 +1,4 @@
-# AI Agent
+# 🤖 AI Agent
 
 The program is a CLI tool that:
 
@@ -10,6 +10,6 @@ The program is a CLI tool that:
     -   Execute the python interpreter on a file
 3.  Repeats step 2 until the task is complete (or it fails miserably, which is possible)
 
-## Prerequisites
+## 🛍️ Prerequisites
 
 -   Python 3.10+ installed
