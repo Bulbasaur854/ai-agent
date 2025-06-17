@@ -13,3 +13,13 @@ The program is a CLI tool that:
 ## 🛍️ Prerequisites
 
 -   Python 3.10+ installed
+
+## 📘 How-To
+
+1.  Download source code as ZIP and extract it somehwere on your PC
+2.  Open a terminal session inside the extracted folder
+3.  Install the requirements:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
