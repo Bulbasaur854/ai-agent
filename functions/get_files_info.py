@@ -27,4 +27,4 @@ def get_files_info(working_directory, directory=None):
         return "\n".join(contents)
     
     except Exception as e:
-        return f"Error: Use of standard library functions raised an exception\n{e}"
+        return f"Error: Use of standard library functions raised an exception:\n{e}"
