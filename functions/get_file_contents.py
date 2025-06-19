@@ -13,12 +13,12 @@ def get_file_contents(working_directory, file_path):
 
     try:
         # file is outside working directory
-        if (not file_abs.startswith(f"{working_abs}/")) and (not file_abs == working_abs):
-            return f'Error: Cannot get contents of "{file_path}" as it is outside the permitted working directory'     
+        if (not file_abs.startswith(f"{working_abs}/")):
+            return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'     
 
         # file is not a file
         if not os.path.isfile(file_abs):
-            return f'Error: "{file_path}" is not a file'
+            return f'Error: File not found or is not a regular file: "{file_path}"'
         
         # read contents of the file
         with open(file_abs, "r") as f:
