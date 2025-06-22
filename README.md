@@ -23,8 +23,9 @@ This program does not have all the security and safety features that a productio
 ## 📘 How-To
 
 1.  Download source code as ZIP and extract it somehwere on your PC
-2.  Open a terminal session inside the extracted folder
-3.  Install the requirements:
+2.  Delete the 'claculator' example project folder
+3.  Open a terminal session inside the extracted folder
+4.  Install the requirements:
 
     ```bash
     pip install -r requirements.txt
