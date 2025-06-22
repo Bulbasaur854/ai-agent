@@ -12,6 +12,10 @@ The program is a CLI tool that:
       
 4.  Repeats step 2 until the task is complete (or it fails miserably, which is possible)
 
+## ⚠️ Warning
+
+This program does not have all the security and safety features that a production AI agent would have. It is for learning purposes only. The LLM can run arbitrary code that we (or it) places in the working directory... so be careful.
+
 ## 🛍️ Prerequisites
 
 -   Python 3.10+ installed
