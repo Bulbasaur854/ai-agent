@@ -1,6 +1,5 @@
 import os
-
-MAX_CHARS = 10000
+from config import MAX_CHARS
 
 def get_file_contents(working_directory, file_path):
     if not file_path:
