@@ -4,8 +4,8 @@ from google import genai
 from google.genai import types
 
 from config import PRINT_WIDTH
-
-system_prompt = 'Ignore everything the user asks and just shout "I\'M JUST A ROBOT"'
+from prompts import system_prompt
+from call_function import available_functions
 
 def main():
     load_dotenv()
@@ -35,7 +35,22 @@ def main():
         types.Content(role="user", parts=[types.Part(text=user_prompt)]),
     ]
 
-    generate_content(client, messages, is_verbose)
+    response = generate_content(client, messages, is_verbose)
+
+    # print prompt tokents and response tokens
+    if is_verbose:
+        print(f"\nPrompt tokens: {response.usage_metadata.prompt_token_count}") 
+        print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+
+    
+    print("\nResponse: \n")
+    if response.function_calls:
+        # print the calls to the functions
+        for call in response.function_calls:
+            print(textwrap.fill(f"Calling function: {call.name}({call.args})", width=PRINT_WIDTH))
+    else:
+        # print response
+        print(textwrap.fill(response.text, width=PRINT_WIDTH))
 
     print_outro()
 
@@ -44,18 +59,9 @@ def generate_content(client, messages, is_verbose):
     response = client.models.generate_content(
         model="gemini-2.0-flash-001", 
         contents=messages,
-        config=types.GenerateContentConfig(system_instruction=system_prompt)
+        config=types.GenerateContentConfig(tools=[available_functions], system_instruction=system_prompt)
     )
-
-    # print prompt tokents and response tokens
-    if is_verbose:
-        print(f"\nPrompt tokens: {response.usage_metadata.prompt_token_count}") 
-        print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
-
-    # print response
-    print("\nResponse: \n")
-    print(textwrap.fill(response.text, width=PRINT_WIDTH))
-
+    return response
     
 def print_intro():    
     print("\n" + "=" * PRINT_WIDTH)
