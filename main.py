@@ -14,8 +14,9 @@ def main():
     # handle user input via command line arguments
     args = sys.argv[1:]
     if not args:
-        print('Usage:\n\tpython main.py "your prompt here" [--verbose]')
+        print('\nUsage:\n\tpython main.py "your prompt here" [--verbose]')
         print('Example:\n\tpython main.py "How do I build a calculator app?"')
+        print_outro()
         sys.exit(1)
     user_prompt = args[0]
     is_verbose = "--verbose" in sys.argv    
