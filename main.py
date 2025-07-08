@@ -1,15 +1,15 @@
-import os, sys, textwrap
+import os, sys
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
 from config import PRINT_WIDTH
 from prompts import system_prompt
-from call_function import available_functions
+from call_function import call_function, available_functions
 
 def main():
     load_dotenv()
-    print_intro() 
+    # print_intro() 
 
     # handle user input via command line arguments
     args = sys.argv[1:]
@@ -29,7 +29,7 @@ def main():
     # print user prompt
     if is_verbose:
         print("\nUser prompt: \n")
-        print(textwrap.fill(user_prompt, width=PRINT_WIDTH))
+        print(user_prompt)
 
     # list of `types.Content` to keep track of the whole conversation
     messages = [
@@ -43,17 +43,21 @@ def main():
         print(f"\nPrompt tokens: {response.usage_metadata.prompt_token_count}") 
         print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
 
-    
+
     print("\nResponse: \n")
     if response.function_calls:
         # print the calls to the functions
         for call in response.function_calls:
-            print(textwrap.fill(f"Calling function: {call.name}({call.args})", width=PRINT_WIDTH))
+            result = call_function(call, is_verbose)
+            if not result.parts[0].function_response.response:
+                raise Exception("Error! 'call_function' got no response!")
+            if is_verbose:
+                print(f"--->\n{result.parts[0].function_response.response["result"]}")
     else:
         # print response
-        print(textwrap.fill(response.text, width=PRINT_WIDTH))
+        print(response.text)
 
-    print_outro()
+    # print_outro()
 
 def generate_content(client, messages, is_verbose):
     # get a response from gemini using messages list to track the whole conversation

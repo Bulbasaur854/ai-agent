@@ -31,7 +31,7 @@ def get_file_contents(working_directory, file_path):
     except Exception as e:
         return f"Error: Use of standard library functions raised an exception:\n{e}"
     
-schema_get_file_content = types.FunctionDeclaration(
+schema_get_file_contents = types.FunctionDeclaration(
     name="get_file_content",
     description=f"Reads and returns the first {MAX_CHARS} characters of the content from a specified file within the working directory.",
     parameters=types.Schema(
