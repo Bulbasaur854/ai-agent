@@ -20,13 +20,29 @@ This program does not have all the security and safety features that a productio
 
 -   Python 3.10+ installed
 
-## 📘 How-To
+## 💾 Installation
 
-1.  Download source code as ZIP and extract it somehwere on your PC
-2.  Delete the 'claculator' example project folder
-3.  Open a terminal session inside the extracted folder
-4.  Install the requirements:
+1.  Clone the repo
+2.  In terminal, `cd` into it
+3.  Install `uv` (if not installed already)
 
     ```bash
-    pip install -r requirements.txt
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
+
+## 📘 How-To (example)
+
+1.  Introduce the bug. Manually update `pkg/calculator.py` and change the precedence of the `+` operator to `3`
+2.  Run the calculator app, to make sure it's now producing incorrect results:
+
+    ```bash
+    uv run calculator/main.py "3 + 7 * 2"
+    ```
+
+    This should be 17, but because we broke it, it says 20
+   
+3.  Run the agent:
+
+    ```bash
+    uv run main.py "Result of '3 + 7 * 2' should not be 20"
     ```
