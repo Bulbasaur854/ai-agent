@@ -36,26 +36,43 @@ def main():
         types.Content(role="user", parts=[types.Part(text=user_prompt)]),
     ]
 
-    response = generate_content(client, messages, is_verbose)
+    for i in range(20):
+        try:
+            response = generate_content(client, messages, is_verbose)
 
-    # print prompt tokents and response tokens
-    if is_verbose:
-        print(f"\nPrompt tokens: {response.usage_metadata.prompt_token_count}") 
-        print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+            # append respond variations to messages
+            for candidate in response.candidates:
+                if candidate.content and candidate.content.parts:
+                    messages.append(candidate.content)
 
-
-    print("\nResponse: \n")
-    if response.function_calls:
-        # print the calls to the functions
-        for call in response.function_calls:
-            result = call_function(call, is_verbose)
-            if not result.parts[0].function_response.response:
-                raise Exception("Error! 'call_function' got no response!")
+            # print prompt tokents and response tokens
             if is_verbose:
-                print(f"--->\n{result.parts[0].function_response.response["result"]}")
-    else:
-        # print response
-        print(response.text)
+                print(f"\nPrompt tokens: {response.usage_metadata.prompt_token_count}") 
+                print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+
+            # handle function calls requested by the LLM
+            # print("\nResponse: \n")
+            if response.function_calls:
+                # print the calls to the functions
+                for call in response.function_calls:
+                    function_response = call_function(call, is_verbose)
+
+                    messages.append(types.Content(
+                        role="user", 
+                        parts=[{"text": str(function_response)}]
+                    ))
+
+                    if not function_response.parts[0].function_response.response:
+                        raise Exception("'call_function' got no response!")
+                    if is_verbose:
+                        print(f"--->\n{function_response.parts[0].function_response.response["result"]}")
+            # no functions to call, we print the LLM response
+            elif response.text:
+                # print response
+                print(response.text)
+                break
+        except Exception as e:
+            print(f"Error: Failed generating content. {e}")
 
     # print_outro()
 
