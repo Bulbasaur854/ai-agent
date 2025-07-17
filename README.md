@@ -25,6 +25,11 @@ This program does not have all the security and safety features that a productio
 
 1.  Clone the repo
 2.  In terminal, `cd` into it
+3.  You will need to setup Gemini API key. Create a `.env` file in project folder and inside it:
+
+    ```
+    GEMINI_API_KEY = "<your-api-key>"
+    ```
 
 ## 📘 How-To (example)
 
